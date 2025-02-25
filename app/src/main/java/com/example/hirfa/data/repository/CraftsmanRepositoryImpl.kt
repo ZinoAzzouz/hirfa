@@ -1,10 +1,12 @@
-package com.example.hirfa.repository
+package com.example.hirfa.data.repository
 
-import com.example.hirfa.model.Craftsman
+import com.example.hirfa.data.model.Craftsman
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 
 
-object CraftsmanRepository {
-    private val craftsmen = listOf(
+class CraftsmanRepositoryImpl : CraftsmanRepository{
+    private val _craftsmen = mutableListOf(
         Craftsman(
             id = "1",
             name = "John Doe",
@@ -31,5 +33,18 @@ object CraftsmanRepository {
         )
     )
 
-    fun getAllCraftsman(): List<Craftsman> = craftsmen
+    private val _craftsmanFlow = MutableSharedFlow<List<Craftsman>>(replay = 1)
+
+    init {
+        _craftsmanFlow.tryEmit(_craftsmen.toList())
+    }
+
+    override fun getCraftsman(): Flow<List<Craftsman>> = _craftsmanFlow
+
+    override suspend fun addCraftsman(craftsman: Craftsman){
+        _craftsmen.add(craftsman)
+        _craftsmanFlow.emit(_craftsmen.toList())
+    }
+
+
 }

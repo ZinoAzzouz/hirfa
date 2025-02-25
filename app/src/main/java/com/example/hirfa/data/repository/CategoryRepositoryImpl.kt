@@ -1,10 +1,12 @@
-package com.example.hirfa.repository
+package com.example.hirfa.data.repository
 
 import com.example.hirfa.R
-import com.example.hirfa.model.Category
+import com.example.hirfa.data.model.Category
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 
-object CategoryRepository {
-    private val categories = listOf(
+class CategoryRepositoryImpl : CategoryRepository {
+    private val _categories = mutableListOf(
         Category(
             id = "1",
             name = "Plumbing",
@@ -37,6 +39,12 @@ object CategoryRepository {
         )
     )
 
+    private val _categoryFlow = MutableSharedFlow<List<Category>>(replay = 1)
 
-    fun getAllCategories(): List<Category> = categories
+    init {
+        _categoryFlow.tryEmit(_categories.toList())
+    }
+
+
+    override fun getCategories(): Flow<List<Category>> = _categoryFlow
 }

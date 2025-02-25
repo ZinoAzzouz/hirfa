@@ -31,12 +31,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hirfa.ui.theme.HirfaTheme
-import com.example.hirfa.view.MainScreen
-import com.example.hirfa.viewmodel.CategoryViewModel
-import com.example.hirfa.viewmodel.CraftsmanViewModel
+import com.example.hirfa.presentation.view.MainScreen
+import com.example.hirfa.presentation.viewmodel.CategoryViewModel
+import com.example.hirfa.presentation.viewmodel.CraftsmanViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     data class BottomNavBarItems(
@@ -102,8 +106,8 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { innerPadding ->
-                    val categoryViewModel = viewModel<CategoryViewModel>()
-                    val craftsmanViewModel = viewModel<CraftsmanViewModel>()
+                    val categoryViewModel = hiltViewModel<CategoryViewModel>()
+                    val craftsmanViewModel = hiltViewModel<CraftsmanViewModel>()
                     MainScreen(
                         categoryViewModel,
                         craftsmanViewModel,

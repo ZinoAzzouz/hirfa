@@ -1,4 +1,4 @@
-package com.example.hirfa.model
+package com.example.hirfa.data.model
 
 data class Category(
     val id: String,
